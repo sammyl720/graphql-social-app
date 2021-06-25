@@ -1,7 +1,7 @@
 module.exports = `
   type Mutation{
-    login(data: LoginInput): UserOrError!
-    signup(data: SignupInput): UserOrError!
+    login(data: LoginInput): TokenOrError!
+    signup(data: SignupInput): TokenOrError!
     addPost(data: AddPostInput): PostOrError!
   }
 `

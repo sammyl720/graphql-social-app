@@ -43,6 +43,5 @@ const UserSchema = new Schema({
 
 const UserModel = model('User', UserSchema);
 
-console.log(UserModel)
 
 module.exports = UserModel

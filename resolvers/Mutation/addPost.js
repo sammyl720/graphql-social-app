@@ -2,13 +2,13 @@ const { User, Post } = require('../../models')
 
 
 module.exports = async (parent, { data: { text, images = [], public = true }}, { payload }, info) => {
-    console.log(payload)
+    // console.log(payload)
     try {
       const currentUser = await User.findById(payload.id)
       if(!payload || !payload.email || !currentUser){
         return { message: 'Please login first', errors: ['Please login first'] }
       }
-      console.log(currentUser, 'Current user')
+      // console.log(currentUser, 'Current user')
   
       if(!text){
         return { message: 'Please provide post text', errors: ['Please provide post text'] }
@@ -22,15 +22,21 @@ module.exports = async (parent, { data: { text, images = [], public = true }}, {
         public
       })
       
-      await newPost.save()
-      currentUser.posts.push(newPost._id)
+      let post = await newPost.save()
+      currentUser.posts.push(post._id)
       await currentUser.save()
-      return {
-        ...newPost,
+      post = {
+        ...post._doc,
         id: newPost._id,
-        created_on: newPost.created_on.toDateString()
+        user: currentUser
       }
+      delete post._id
+      return post
     } catch (error) {
-      
+      console.log(error)
+      return {
+        message: 'Something went wrong',
+        errors: ['Something went wrong']
+      }
     }
   }

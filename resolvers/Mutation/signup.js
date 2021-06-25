@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require('../../models/User')
 
-module.exports = async (parent, { data: { email, password, name }}, { headers, from}, info) => {
+module.exports = async (parent, { data: { email, password, name }}, ctx, info) => {
   // backend login logi
   // console.log(headers, from)
   const errors = []
@@ -46,21 +46,10 @@ module.exports = async (parent, { data: { email, password, name }}, { headers, f
     })
 
     await newUser.save()
-    console.log('new user', newUser)
     const token = jwt.sign({ id: newUser._id, email}, process.env.JWT_SECRET, { expiresIn: '2 days'})
-    let user = {
-      id: newUser._id,
-      email: newUser.email,
-      bio: newUser.bio || null,
-      name: newUser.name,
-      profile_img: newUser.profile_img || null,
-      date_joined: newUser.date_joined,
-      last_login: newUser.last_login,
-      token
-    }
   
     
-    return user
+    return { token }
   } catch (error) {
     return {
       message: 'Something went wrong',

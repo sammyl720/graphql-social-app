@@ -4,6 +4,7 @@ const PostSchema = new Schema({
   text: {
     type: String
   },
+  id: ObjectId,
   images: [String],
   created_on: {
     type: Date,
@@ -26,6 +27,24 @@ const PostSchema = new Schema({
     type: ObjectId,
     ref: 'Comment'
   }]
+})
+
+PostSchema.pre('save', function(next) {
+  this.id = this._id
+  next()
+})
+
+PostSchema.pre('find', function(next){
+  next()
+})
+PostSchema.post('find', async function(docs) {
+  for(let doc of docs) {
+    
+    doc.id = doc._id.toString()
+    if(doc.public){
+      await doc.populate('user').execPopulate()
+    }
+  }
 })
 
 const PostModel = model('Post', PostSchema)

@@ -7,7 +7,6 @@ type User {
   profile_img: String,
   date_joined: String,
   last_login: String!
-  token: String
   followers: [User]
   following: [User]
   posts: [Post]
@@ -22,7 +21,7 @@ type Post {
   id:ID!
   text: String!
   created_on: String!
-  user: ID!
+  user: User
   images: [String]
   public: Boolean
   likes: [ID!]
@@ -41,4 +40,8 @@ type Comment {
   comments: [Comment]
   hash_tags: [String]
 }
+ type Token {
+   token: String!
+ }
+
 `

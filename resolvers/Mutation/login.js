@@ -37,24 +37,8 @@ module.exports = async (parent, { data: { email, password }}, ctx, info) => {
     const last_login = new Date();
     user.last_login = last_login;
     await user.save()
-    const { followers, following, posts, _id:id, name, bio, date_joined, profile_img} = user._doc
-    let response = {
-      id,
-      email,
-      name,
-      bio: bio || null,
-      followers,
-      following,
-      posts,
-      date_joined,
-      last_login,
-      token,
-      profile_img: profile_img || null
-    }
 
-    console.log(response)
-    
-    return response
+    return {token}
   } catch (error) {
     console.log(error)
     return {
