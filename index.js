@@ -5,12 +5,17 @@ const getJWTPayload = require('./util/getJWTPayload')
 const resolvers = require('./resolvers')
 const typeDefs = require('./typeDefs')
 const models = require('./models')
+const EnsureAuth = require('./directives/ensureAuth')
+
 
 
 
 const server = new ApolloServer({ typeDefs, resolvers, context: (ctx) => {
   const payload = getJWTPayload(ctx)
   return { payload,from: 'CONTEXT', models}
+},
+schemaDirectives: {
+  ensureAuth: EnsureAuth
 } })
 
 
