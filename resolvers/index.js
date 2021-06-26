@@ -10,5 +10,6 @@ module.exports = {
   UserOrError,
   TokenOrError,
   SuccessOrError,
-  Mutation
+  Mutation,
+  
 }

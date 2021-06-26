@@ -14,16 +14,17 @@ module.exports = async (parent, { id }, { payload, user }, info) => {
         return { message: 'Could not find post', errors: ['Could not find post'] }
       }
       
-      const alreadyLiked = post.likes.includes(u => u._id.toString() == user._id)
+      const alreadyLiked = post.likes.find(u => {
+        return u.toString() == user._id.toString()
+      })
       if(alreadyLiked){
-        post.likes.filter(u => u._id.toString() != user._id)
+        post.likes = post.likes.filter(u => u.toString() != user._id.toString())
       } else {
-        post.likes.push(user._id)
+        post.likes.push(user._id.toString())
       }
 
       await post.save()
       //? TODO add images to cloud and get a ref list
-      
       return {
         status: `Succesfully ${alreadyLiked ? 'unliked' :'liked'} post (${post._id})`
       }

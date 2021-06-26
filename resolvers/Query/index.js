@@ -1,8 +1,13 @@
 const me = require("./me")
+const posts = require("./posts")
+const user = require("./user")
 
 module.exports = {
   hello: (parent, { name }, context, info) => {
     return `Hello ${name}`
   },
-  me
+  me,
+  user,
+  posts,
+  
 }
