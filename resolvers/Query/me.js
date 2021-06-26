@@ -2,21 +2,12 @@ const { User } = require("../../models")
 
 module.exports = async(parent, args, { user }) => {
   try {
-    const { followers, following, posts, name, bio, date_joined, profile_img, last_login, email, _id, likes } = user._doc
-    let response = {
-      id: _id.toString(),
-      email,
-      name,
-      bio: bio || null,
-      followers,
-      following,
-      posts,
-      date_joined,
-      last_login,
-      profile_img: profile_img || null,
-      likes
-    }
-    return response;
+    delete user._doc.password
+    delete user._doc.__v
+    let date = new Date(user._doc.date_joined)
+    console.log(user._doc)
+    console.log(date.toDateString())
+    return user._doc;
   } catch (error) {
     console.log(error)
     return {

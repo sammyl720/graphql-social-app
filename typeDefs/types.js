@@ -5,8 +5,8 @@ type User {
   name: String
   bio: String
   profile_img: String,
-  date_joined: String,
-  last_login: String!
+  date_joined: Date,
+  last_login: Date
   followers: [User]
   following: [User]
   posts: [Post]
@@ -20,7 +20,7 @@ type Error {
 type Post {
   id:ID!
   text: String!
-  created_on: String!
+  created_on: Date
   user: User
   images: [String]
   public: Boolean
@@ -34,7 +34,7 @@ type Comment {
   text: String!
   images: [String]
   user: ID!
-  created_on: String
+  created_on: Date
   post: ID
   likes: [User!]
   comments: [Comment]
@@ -46,5 +46,13 @@ type Comment {
 
  type Success {
    status: String!
+ }
+
+ type Date {
+   unix: String
+   full_date: String
+   utc:String
+   date: String
+   time: String
  }
 `

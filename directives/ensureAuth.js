@@ -18,7 +18,7 @@ class EnsureAuth extends SchemaDirectiveVisitor {
           }
         }
 
-        let user = await User.findById(payload.id).populate('posts followers following')
+        let user = await User.findById(payload.id).populate('followers following')
         if(!user){
           return {
             message: 'Couldn\'t retrieve user',

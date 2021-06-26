@@ -42,7 +42,7 @@ PostSchema.post('find', async function(docs) {
     
     doc.id = doc._id.toString()
     if(doc.public){
-      await doc.populate('user likes').execPopulate()
+      await doc.populate('likes').execPopulate()
     } else {
       await doc.populate('likes').execPopulate()
     }
