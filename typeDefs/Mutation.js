@@ -5,5 +5,7 @@ module.exports = `
     addPost(data: AddPostInput): PostOrError! @ensureAuth
     deletePost(id: ID!): SuccessOrError! @ensureAuth
     toggleLikePost(id: ID!): SuccessOrError! @ensureAuth
+    follow(userId: ID!): SuccessOrError! @ensureAuth
+    unfollow(userId: ID!): SuccessOrError! @ensureAuth
   }
 `
