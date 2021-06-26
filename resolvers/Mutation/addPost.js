@@ -1,4 +1,5 @@
 const { Post } = require('../../models')
+const getHashTagFromText = require('../../util/getHashTagFromText')
 
 
 module.exports = async (parent, { data: { text, images = [], public = true }}, { payload, user }, info) => {
@@ -8,10 +9,12 @@ module.exports = async (parent, { data: { text, images = [], public = true }}, {
   
       }
       //? TODO add images to cloud and get a ref list
+      const hash_tags = getHashTagFromText(text)
       const newPost = new Post({
         text,
         user: user._id,
         images,
+        hash_tags,
         public
       })
       

@@ -24,7 +24,7 @@ type Post {
   user: User
   images: [String]
   public: Boolean
-  likes: [ID!]
+  likes: [User!]
   hash_tags: [String]
   comments: [Comment!]
 }
@@ -36,7 +36,7 @@ type Comment {
   user: ID!
   created_on: String
   post: ID
-  likes: [ID!]
+  likes: [User!]
   comments: [Comment]
   hash_tags: [String]
 }
@@ -44,4 +44,7 @@ type Comment {
    token: String!
  }
 
+ type Success {
+   status: String!
+ }
 `

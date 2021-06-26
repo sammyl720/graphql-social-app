@@ -38,6 +38,10 @@ const UserSchema = new Schema({
   posts: [{
     type: ObjectId,
     ref: 'Post'
+  }],
+  liked: [{
+    type: ObjectId,
+    ref: 'Post'
   }]
 })
 
