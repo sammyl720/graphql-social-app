@@ -1,3 +1,4 @@
+const find = require("./find")
 const me = require("./me")
 const posts = require("./posts")
 const user = require("./user")
@@ -8,5 +9,6 @@ module.exports = {
   },
   me,
   user,
-  posts
+  posts,
+  find
 }

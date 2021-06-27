@@ -67,5 +67,9 @@ type Comment {
    time: String
  }
 
- 
+ type FindResult {
+   users: [User]!
+   posts: [Post]!
+   comments: [Comment]!
+ }
 `

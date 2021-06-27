@@ -35,4 +35,9 @@ module.exports = `
     bio: String
     private: Boolean
   }
+
+  input FindInput {
+    text:String!
+    limit: Int
+  }
 `

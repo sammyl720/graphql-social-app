@@ -4,6 +4,7 @@ const addFollow = require("./addFollow");
 const addPost = require("./addPost");
 const deleteComment = require("./deleteComment");
 const deletePost = require("./deletePost");
+const find = require("./find");
 const follow = require("./follow");
 const login = require("./login");
 const signup = require("./signup");
@@ -25,5 +26,6 @@ module.exports = {
   toggleLikeComment,
   follow,
   unfollow,
-  addFollow
+  addFollow,
+  find
 }
