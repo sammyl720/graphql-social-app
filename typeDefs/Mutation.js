@@ -1,4 +1,4 @@
-const { login, signup, addPost, updateProfile, addCommentToPost, addComment, deletePost, toggleLikePost, toggleLikeComment, follow, unfollow, addFollow } = require("./docs");
+const { login, signup, addPost, updateProfile, addCommentToPost, addComment, deletePost, toggleLikePost, toggleLikeComment, follow, unfollow, addFollow, deleteComment } = require("./docs");
 
 module.exports = `
   type Mutation{
@@ -30,6 +30,10 @@ module.exports = `
     ${deletePost}
     """
     deletePost(id: ID!): SuccessOrError! @ensureAuth
+    """
+    ${deleteComment}
+    """
+    deleteComment(id: ID!): SuccessOrError! @ensureAuth
     """
     ${toggleLikePost}
     """

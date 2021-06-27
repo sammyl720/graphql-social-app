@@ -2,6 +2,7 @@ const addComment = require("./addComment");
 const addCommentToPost = require("./addCommentToPost");
 const addFollow = require("./addFollow");
 const addPost = require("./addPost");
+const deleteComment = require("./deleteComment");
 const deletePost = require("./deletePost");
 const follow = require("./follow");
 const login = require("./login");
@@ -19,6 +20,7 @@ module.exports = {
   addCommentToPost,
   addComment,
   deletePost,
+  deleteComment,
   toggleLikePost,
   toggleLikeComment,
   follow,

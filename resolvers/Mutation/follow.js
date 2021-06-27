@@ -10,7 +10,8 @@ module.exports = async (parent, { userId }, { user }, info) => {
     }
 
     const userToFollow = await User.findById(userId);
-    if(userToFollow.private){
+    const userIsFollower = userToFollow.following(uid => uid.toString() == user._id.toString())
+    if(userToFollow.private && !userIsFollower){
       userToFollow.requests.push(user._id)
       await userToFollow.save()
       return {

@@ -2,6 +2,7 @@ const addComment = require("./addComment");
 const addCommentToPost = require("./addCommentToPost");
 const addFollow = require("./addFollow");
 const addPost = require("./addPost");
+const deleteComment = require("./deleteComment");
 const deletePost = require("./deletePost");
 const follow = require("./follow");
 const login = require("./login");
@@ -23,5 +24,6 @@ module.exports = {
   follow,
   unfollow,
   addCommentToPost, // <- adds a comment to a top level post
-  addComment // <-adds a comment to another comment
+  addComment, // <-adds a comment to another comment
+  deleteComment
 }

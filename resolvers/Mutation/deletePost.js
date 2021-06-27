@@ -1,8 +1,6 @@
-const { Post } = require('../../models')
-const getHashTagFromText = require('../../util/getHashTagFromText')
+const { Post, Comment } = require('../../models')
 
-
-module.exports = async (parent, { id }, { payload, user }, info) => {
+module.exports = async (parent, { id }, { user }) => {
     try {
       if(!id){
         return { message: 'Please provide post id', errors: ['Please provide post id'] }
@@ -21,6 +19,9 @@ module.exports = async (parent, { id }, { payload, user }, info) => {
       }
 
       let deleted = await Post.findByIdAndDelete(id)
+      let deletedComments = await Comment.deleteMany({ post: deleted._id })
+      console.log(deleted.text, "deleted")
+      console.log(deletedComments.deletedCount, 'deleted comments')
       if(deleted){
         console.log(`Deleted ${deleted.text}`)
       } else {
@@ -30,7 +31,7 @@ module.exports = async (parent, { id }, { payload, user }, info) => {
         }
       }
       return {
-        status: `Succesfully deleted post (${deleted._id})`
+        status: `Succesfully deleted post (${deleted._id}). Deleted ${deletedComments.deletedCount} comment(s) associated with this post`
       }
     } catch (error) {
       console.log(error)
