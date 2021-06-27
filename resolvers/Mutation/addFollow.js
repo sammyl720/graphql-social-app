@@ -10,20 +10,20 @@ module.exports = async (parent, { userId }, { user }, info) => {
     }
 
     
-    const userToFollow = await User.findById(userId);
-    if(!userToFollow){
+    const userToApprove = await User.findById(userId);
+    if(!userToApprove){
       return {
         message: 'Could not find user with given id',
         errors: ['Could not find user with given id']
       } 
-    } else if(userToFollow._id.toString() == user._id.toString()){
+    } else if(userToApprove._id.toString() == user._id.toString()){
       return {
         message: 'You can not follow your self.',
         errors: ['You can not follow your self.']
       } 
     }
 
-    const requested = user.requests.includes(userToFollow._id);
+    const requested = user.requests.includes(userToApprove._id);
 
     if(!requested){
       return {
@@ -31,26 +31,26 @@ module.exports = async (parent, { userId }, { user }, info) => {
         errors: ['User did not request to follow you']
       } 
     } else {
-      user.requests = user.requests.filter(u => u.toString() != userToFollow._id.toString())
+      user.requests = user.requests.filter(u => u.toString() != userToApprove._id.toString())
     }
 
 
-    const alreadyFollowing = user.following.includes(userToFollow._id)
-    const alreadyAFollower = userToFollow.followers.includes(user._id)
-    if(alreadyAFollower || alreadyFollowing){
+    // const alreadyFollowing = user.following.includes(userToApprove._id)
+    const alreadyAFollower = user.followers.includes(userToApprove._id)
+    if(alreadyAFollower){
       return {
-        message: `You are already following ${userToFollow.name}`,
-        errors: [`You are already following ${userToFollow.name}`]
+        message: `${userToApprove.name} is already a follower of yours`,
+        errors: [`${userToApprove.name} is already a follower of yours`]
       } 
     }
-    userToFollow.followers.push(user._id)
-    userToFollow.following.push(user._id)
-    user.following.push(userToFollow._id)
-    user.followers.push(userToFollow._id)
-    await userToFollow.save()
+    // userToApprove.followers.push(user._id)
+    userToApprove.following.push(user._id)
+    // user.following.push(userToApprove._id)
+    user.followers.push(userToApprove._id)
+    await userToApprove.save()
     await user.save()
     return {
-      status: `Successfully following ${userToFollow.name}`
+      status: `Successfully following ${userToApprove.name}`
     }
   } catch (error) {
     console.log(error)
