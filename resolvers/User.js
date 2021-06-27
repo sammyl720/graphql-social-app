@@ -19,6 +19,18 @@ module.exports = {
       }]
     }
   },
+  requests: async (parent, args, ctx) => {
+    try {
+      const requests = await User.find({ _id: parent.requests })
+      return requests || []
+    } catch (error) {
+      console.log(error)
+      return [{
+        message: `Something went wrong`,
+        errors: ["Something went wrong", error.message || '']
+      }]
+    }
+  },
   following: async (parent, args, ctx) => {
     try {
       const following = await User.find({ _id: parent.following })

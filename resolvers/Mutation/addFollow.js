@@ -9,14 +9,8 @@ module.exports = async (parent, { userId }, { user }, info) => {
       }
     }
 
+    
     const userToFollow = await User.findById(userId);
-    if(userToFollow.private){
-      userToFollow.requests.push(user._id)
-      await userToFollow.save()
-      return {
-        status: `Successfully sent follow request to ${userToFollow.name}`
-      }
-    }
     if(!userToFollow){
       return {
         message: 'Could not find user with given id',
@@ -29,6 +23,18 @@ module.exports = async (parent, { userId }, { user }, info) => {
       } 
     }
 
+    const requested = user.requests.includes(userToFollow._id);
+
+    if(!requested){
+      return {
+        message: 'User did not request to follow you',
+        errors: ['User did not request to follow you']
+      } 
+    } else {
+      user.requests = user.requests.filter(u => u.toString() != userToFollow._id.toString())
+    }
+
+
     const alreadyFollowing = user.following.includes(userToFollow._id)
     const alreadyAFollower = userToFollow.followers.includes(user._id)
     if(alreadyAFollower || alreadyFollowing){
@@ -38,7 +44,9 @@ module.exports = async (parent, { userId }, { user }, info) => {
       } 
     }
     userToFollow.followers.push(user._id)
+    userToFollow.following.push(user._id)
     user.following.push(userToFollow._id)
+    user.followers.push(userToFollow._id)
     await userToFollow.save()
     await user.save()
     return {

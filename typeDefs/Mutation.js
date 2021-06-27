@@ -9,5 +9,6 @@ module.exports = `
     toggleLikePost(id: ID!): SuccessOrError! @ensureAuth
     follow(userId: ID!): SuccessOrError! @ensureAuth
     unfollow(userId: ID!): SuccessOrError! @ensureAuth
+    addFollow(userId: ID!): SuccessOrError! @ensureAuth
   }
 `

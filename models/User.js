@@ -38,6 +38,14 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  verified: {
+    type: Boolean,
+    default: false
+  },
+  requests: [{
+    type: ObjectId,
+    ref: 'User'
+  }],
   followers: [{
     type: ObjectId,
     ref: 'User'

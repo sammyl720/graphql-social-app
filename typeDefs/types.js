@@ -6,6 +6,7 @@ enum Gender {
   Unspecified
 }
 type User {
+  verified: Boolean
   id:ID!
   private: Boolean
   email: String!
@@ -15,6 +16,7 @@ type User {
   profile_img: String
   date_joined: Date
   last_login: Date
+  requests: [User]
   followers: [User]
   following: [User]
   posts: [Post]
