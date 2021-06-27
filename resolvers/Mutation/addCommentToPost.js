@@ -1,8 +1,8 @@
-const { Post, Comment } = require('../../models')
+const { Post, Comment, User } = require('../../models')
 const getHashTagFromText = require('../../util/getHashTagFromText')
 
 
-module.exports = async (parent, { data: {postId, text, images = []}}, { payload, user }, info) => {
+module.exports = async (parent, { data: {postId, text, images = []}}, { user }, info) => {
     try {
       const errors = []
       if(!text){
@@ -23,6 +23,19 @@ module.exports = async (parent, { data: {postId, text, images = []}}, { payload,
         return {
           message:`Could not find post with id (${postId})` ,
           errors: [`Could not find post with id (${postId})`]
+        }
+      }
+
+      const postUser = await User.findById(post.user)
+      if(postUser.private || !post.public){
+        console.log('user private settings')
+        const isFollower = postUser.followers.includes(user._id)
+        const isSelf = user._id.toString() == postUser._id.toString()
+        if(!isFollower && !isSelf){
+          return {
+            message: 'This post is private',
+            errors: ['This post is private', `${post._id} is private`]
+          }
         }
       }
       //? TODO add images to cloud and get a ref list

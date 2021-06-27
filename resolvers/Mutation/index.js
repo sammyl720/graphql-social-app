@@ -1,4 +1,4 @@
-const addComment = require("./addComment");
+const addCommentToPost = require("./addCommentToPost");
 const addFollow = require("./addFollow");
 const addPost = require("./addPost");
 const deletePost = require("./deletePost");
@@ -19,5 +19,5 @@ module.exports = {
   addFollow, // For users with private accounts
   follow,
   unfollow,
-  addComment
+  addCommentToPost
 }
