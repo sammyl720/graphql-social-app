@@ -1,10 +1,19 @@
 const { Types } = require("mongoose")
-const { Post, Comment } = require("../models")
+const { Post, Comment,User } = require("../models")
 
 module.exports = {
   text: (parent, args,ctx) => {
     return parent.text
 
+  },
+  user: async (parent) => {
+    try {
+      const user = await User.findById(parent.user)
+      return user._doc
+    } catch (error) {
+      console.log(error)
+      return null
+    }
   },
   comments: async (parent, args,ctx) => {
     try {

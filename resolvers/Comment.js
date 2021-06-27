@@ -4,6 +4,9 @@ module.exports = {
   id: (parent, args,ctx) => {
     return parent._id
   },
+  public: (parent) => {
+    return parent.public || true
+  },
   likes: async (parent) => {
     try {
       const users = await User.find({ _id: parent.likes })
@@ -43,6 +46,18 @@ module.exports = {
       return {
         message: "Something went wrong",
         errors: ["Something went wrong", error.message || '']
+      }
+    }
+  },
+  comments: async (parent, args,ctx) => {
+    try {
+      const comments = await Comment.find({ _id: parent.comments })
+      return comments
+    } catch (error) {
+      console.log(error)
+      return {
+        message: "Something went wrong",
+        errors: [error.message || '']
       }
     }
   }

@@ -3,7 +3,10 @@ const { User } = require("../models")
 const { Post } = require("../models")
 
 module.exports = {
-  private: (parent) => parent.private || false,
+  private: (parent) => {
+    console.log('is user private?', parent.private || false)
+    return parent.private || false
+  },
   id: (parent) => parent._id,
   bio: (parent) => parent.bio || null,
   gender: (parent) => parent.gender || 'Unspecified',

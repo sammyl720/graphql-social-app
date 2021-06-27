@@ -4,8 +4,14 @@ module.exports = `
     images: [String]
     public: Boolean
   }
-  input AddCommentInput {
+  input AddPostCommentInput {
     postId: ID!
+    text: String!
+    images: [String]
+    public: Boolean
+  }
+  input AddCommentInput {
+    commentId: ID!
     text: String!
     images: [String]
     public: Boolean

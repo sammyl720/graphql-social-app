@@ -5,6 +5,10 @@ const CommentSchema = new Schema({
     type: String,
     required: true
   },
+  public: {
+    type: Boolean,
+    default: true
+  },
   images: [String],
   user: {
     type: ObjectId,

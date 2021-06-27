@@ -31,7 +31,7 @@ type Post {
   id:ID!
   text: String!
   created_on: Date
-  user: User
+  user: User!
   images: [String]
   public: Boolean
   likes: [User!]
@@ -46,6 +46,7 @@ type Comment {
   user: User!
   created_on: Date
   post: Post!
+  public: Boolean!
   likes: [User!]
   comments: [Comment]
   hash_tags: [String]
