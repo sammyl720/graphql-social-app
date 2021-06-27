@@ -1,3 +1,4 @@
+const addComment = require("./addComment");
 const addPost = require("./addPost");
 const deletePost = require("./deletePost");
 const follow = require("./follow");
@@ -13,5 +14,6 @@ module.exports = {
   deletePost,
   toggleLikePost,
   follow,
-  unfollow: unfollow
+  unfollow,
+  addComment
 }

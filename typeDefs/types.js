@@ -33,9 +33,9 @@ type Comment {
   id: ID!
   text: String!
   images: [String]
-  user: ID!
+  user: User!
   created_on: Date
-  post: ID
+  post: Post!
   likes: [User!]
   comments: [Comment]
   hash_tags: [String]

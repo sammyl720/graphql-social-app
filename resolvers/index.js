@@ -7,13 +7,17 @@ const SuccessOrError = require("./resolveTypes/SuccessOrError");
 const User = require("./User");
 const Post = require("./Post");
 const Date = require("./Date");
+const Comment = require("./Comment");
+const CommentOrError = require("./resolveTypes/CommentOrError");
 module.exports = {
   Query,
   PostOrError,
   UserOrError,
   TokenOrError,
+  CommentOrError,
   SuccessOrError,
   Mutation,
+  Comment,
   User,
   Post,
   Date

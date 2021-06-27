@@ -3,6 +3,7 @@ module.exports = `
     login(data: LoginInput): TokenOrError!
     signup(data: SignupInput): TokenOrError!
     addPost(data: AddPostInput): PostOrError! @ensureAuth
+    addComment(data: AddCommentInput): CommentOrError! @ensureAuth
     deletePost(id: ID!): SuccessOrError! @ensureAuth
     toggleLikePost(id: ID!): SuccessOrError! @ensureAuth
     follow(userId: ID!): SuccessOrError! @ensureAuth
