@@ -1,11 +1,19 @@
 module.exports = `
+enum Gender {
+  Male
+  Female
+  NonBinary
+  Unspecified
+}
 type User {
   id:ID!
+  private: Boolean
   email: String!
   name: String
   bio: String
-  profile_img: String,
-  date_joined: Date,
+  gender: Gender!
+  profile_img: String
+  date_joined: Date
   last_login: Date
   followers: [User]
   following: [User]
@@ -55,4 +63,6 @@ type Comment {
    date: String
    time: String
  }
+
+ 
 `

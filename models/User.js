@@ -6,6 +6,10 @@ const UserSchema = new Schema({
     required: true,
     unique: true
   },
+  last_update: {
+    type: Date,
+    default: Date.now
+  },
   password: {
     type: String,
     required: true
@@ -15,6 +19,13 @@ const UserSchema = new Schema({
   },
   bio: {
     type: String
+  },
+  gender: {
+    type: String,
+  },
+  private: {
+    type: Boolean,
+    default: false
   },
   profile_img: {
     type: String

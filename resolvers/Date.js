@@ -3,7 +3,6 @@ module.exports = {
 
   unix: (parent, args,ctx) => {
     let d = new Date(parent)
-    console.log('uni', d.getTime())
     return d.getTime()
   },
 

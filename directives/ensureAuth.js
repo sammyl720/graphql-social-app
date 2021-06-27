@@ -10,7 +10,6 @@ class EnsureAuth extends SchemaDirectiveVisitor {
         const { payload } = args[2];
         const errors = []
         if(!payload ||!payload?.id){
-          console.log('LOGIN FIRST')
           errors.push('Please provide a token in the authorization header -> Bearer <TOKEN>')
           return {
             message: 'Login first to get token',

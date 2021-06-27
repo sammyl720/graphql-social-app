@@ -6,11 +6,13 @@ const login = require("./login");
 const signup = require("./signup");
 const toggleLikePost = require("./toggleLikePost");
 const unfollow = require("./unfollow");
+const updateProfile = require("./updateProfile");
 
 module.exports = {
   addPost,
   login,
   signup,
+  updateProfile,
   deletePost,
   toggleLikePost,
   follow,

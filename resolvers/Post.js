@@ -3,7 +3,6 @@ const { Post, Comment } = require("../models")
 
 module.exports = {
   text: (parent, args,ctx) => {
-    console.log('parent')
     return parent.text
 
   },
