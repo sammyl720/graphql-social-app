@@ -6,6 +6,18 @@ module.exports = {
     return parent.text
 
   },
+  likes: async (parent) => {
+    try {
+      const users = await User.find({ _id: parent.likes })
+      return users
+    } catch (error) {
+      console.log(error)
+      return {
+        message: "Something went wrong",
+        errors: ["Something went wrong", error.message || '']
+      }
+    }
+  },
   user: async (parent) => {
     try {
       const user = await User.findById(parent.user)

@@ -2,9 +2,13 @@ const { Post, Comment, User } = require('../../models')
 const getHashTagFromText = require('../../util/getHashTagFromText')
 
 
-module.exports = async (parent, { data: {commentId, text, images = [], public = true}}, { user }, info) => {
+module.exports = async (parent, { data: {commentId, text, images = [], public }}, { user }, info) => {
     try {
       const errors = []
+      if(!public){
+        public = !user.private
+      }
+      
       if(!text){
         errors.push('Please provide text field')
       } 

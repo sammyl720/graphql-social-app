@@ -6,6 +6,7 @@ const deletePost = require("./deletePost");
 const follow = require("./follow");
 const login = require("./login");
 const signup = require("./signup");
+const toggleLikeComment = require("./toggleLikeComment");
 const toggleLikePost = require("./toggleLikePost");
 const unfollow = require("./unfollow");
 const updateProfile = require("./updateProfile");
@@ -17,6 +18,7 @@ module.exports = {
   updateProfile,
   deletePost,
   toggleLikePost,
+  toggleLikeComment,
   addFollow, // For users with private accounts
   follow,
   unfollow,
