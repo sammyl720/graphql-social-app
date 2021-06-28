@@ -2,7 +2,8 @@ require('dotenv').config()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require('../../models/User')
-
+const sendEmail = require('../../mail')
+const url = process.env.BASE_URL || 'http:127.0.0.1:3000'
 module.exports = async (parent, { data: { email, password, name }}, ctx, info) => {
   // backend login logi
   // console.log(headers, from)
@@ -47,8 +48,8 @@ module.exports = async (parent, { data: { email, password, name }}, ctx, info) =
 
     await newUser.save()
     const token = jwt.sign({ id: newUser._id, email}, process.env.JWT_SECRET, { expiresIn: '2 days'})
-  
     
+    sendVerifyEmail(newUser, token)
     return { token }
   } catch (error) {
     return {
@@ -57,4 +58,13 @@ module.exports = async (parent, { data: { email, password, name }}, ctx, info) =
     }
   }
 
+}
+
+async function sendVerifyEmail(user, token){
+  try {
+    const info = await sendEmail("welcome", { to: `"${user.name}", ${user.email}`, subject: "Welcome aboard!", text: "Welcome to Kesher"}, { user, website: process.env.WEBSITE, url: `${url}/verify/${token}` })
+    console.log(info)
+  } catch (error) {
+    console.log('error', error)
+  }
 }

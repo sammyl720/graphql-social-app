@@ -22,7 +22,7 @@ schemaDirectives: {
 server.listen().then(async ({ url }) => {
   console.log(`Server ready at ${url}`)
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
+    await mongoose.connect(`${process.env.MONGO_URI}/${process.env.MONGO_DB}?retryWrites=true&w=majority`, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
