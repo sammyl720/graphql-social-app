@@ -2,7 +2,7 @@ const { User } = require('../../models')
 const jwt = require('jsonwebtoken')
 const sendEmail = require('../../mail')
 const { isEmail } = require('../../util/rgx')
-console.log(process.env.WEBSITE)
+
 const url = process.env.BASE_URL || 'http://127.0.0.1:3000'
 module.exports = async (parent, { email }) =>{
   try {

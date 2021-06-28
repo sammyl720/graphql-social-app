@@ -37,7 +37,6 @@ module.exports = async (parent, { data: { email, password, name }}, ctx, info) =
 
   try {
     const userExists = await User.findOne({ email })
-    console.log(userExists)
     if(userExists) {
       return {
         message: 'Please provide proper credential',

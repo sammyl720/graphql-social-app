@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer')
 const ejs = require('ejs')
-require('dotenv').config()
+
 
 const { MAIL_SMTP:smtp, MAIL_USERNAME:username, MAIL_PASSWORD: password, WEBSITE } = process.env
 let poolConfig = `smtp://${username}:${password}@${smtp}/?pool-true`;
