@@ -27,14 +27,20 @@ module.exports = async (parent, { data: { email, password }}, ctx, info) => {
   try {
     console.log(User, 'USER MODEL')
     let user = await User.findOne({ email })
-    const isMatch = bcrypt.compareSync(password,user?.password)
-    if(!user || !isMatch){
+    if(!user){
       return {
         message: 'Please provide proper credentials',
         errors: ['Please provide proper credentials']
       }
     }
 
+    const isMatch = bcrypt.compareSync(password,user?.password)
+    if(!isMatch){
+      return {
+        message: 'Please provide proper credentials',
+        errors: ['Please provide proper credentials']
+      }
+    }
 
     const token = jwt.sign({ id: user._id, email}, process.env.JWT_SECRET, { expiresIn: '2 days'})
     const last_login = new Date();
