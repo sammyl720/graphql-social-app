@@ -7,6 +7,8 @@ const deletePost = require("./deletePost");
 const find = require("./find");
 const follow = require("./follow");
 const login = require("./login");
+const resetPassword = require("./resetPassword");
+const sendResetRequest = require("./sendResetRequest");
 const signup = require("./signup");
 const toggleLikeComment = require("./toggleLikeComment");
 const toggleLikePost = require("./toggleLikePost");
@@ -27,5 +29,7 @@ module.exports = {
   follow,
   unfollow,
   addFollow,
-  find
+  sendResetRequest,
+  find,
+  resetPassword
 }

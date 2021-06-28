@@ -1,27 +1,16 @@
 const nodemailer = require('nodemailer')
 const ejs = require('ejs')
-const path = require('path')
 require('dotenv').config()
 
 const { MAIL_SMTP:smtp, MAIL_USERNAME:username, MAIL_PASSWORD: password, WEBSITE } = process.env
 let poolConfig = `smtp://${username}:${password}@${smtp}/?pool-true`;
-const options = {
-  host: smtp,
-  auth: {
-    type: 'login',
-    user: username,
-    password
-  }
-}
-let from = username;
-let transporter = nodemailer.createTransport(poolConfig, { from })
 
-console.log('Hello')
+let transporter = nodemailer.createTransport(poolConfig, { from: username })
+
 transporter.verify((error, success) => {
   if(error){
     console.log(error)
   } else {
-    console.log(success)
     console.log('Server is ready to take our messages')
   }
 })
@@ -35,6 +24,7 @@ module.exports = async function sendEmail(template, headers, variables){
     return "E-mail sent"
   } catch (error) {
     console.log(error)
+    return error
   }
 }
 

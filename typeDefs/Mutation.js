@@ -1,4 +1,4 @@
-const { login, signup, addPost, updateProfile, addCommentToPost, addComment, deletePost, toggleLikePost, toggleLikeComment, follow, unfollow, addFollow, deleteComment } = require("./docs");
+const { login, signup, addPost, updateProfile, addCommentToPost, addComment, deletePost, toggleLikePost, toggleLikeComment, follow, unfollow, addFollow, deleteComment, sendResetRequest, resetPassword } = require("./docs");
 
 module.exports = `
   type Mutation{
@@ -54,5 +54,13 @@ module.exports = `
     ${addFollow}
     """
     addFollow(userId: ID!): SuccessOrError! @ensureAuth
+    """
+    ${sendResetRequest}
+    """
+    sendResetRequest(email: String!): SuccessOrError!
+    """
+    ${resetPassword}
+    """
+    resetPassword(password: String!): SuccessOrError! @ensureAuth
   }
 `

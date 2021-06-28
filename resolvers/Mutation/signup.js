@@ -1,9 +1,10 @@
-require('dotenv').config()
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 const User = require('../../models/User')
+const jwt = require('jsonwebtoken')
 const sendEmail = require('../../mail')
-const url = process.env.BASE_URL || 'http:127.0.0.1:3000'
+const { isEmail } = require('../../util/rgx')
+const url = process.env.BASE_URL || 'http://127.0.0.1:3000'
+
 module.exports = async (parent, { data: { email, password, name }}, ctx, info) => {
   // backend login logi
   // console.log(headers, from)
@@ -21,6 +22,10 @@ module.exports = async (parent, { data: { email, password, name }}, ctx, info) =
   }
   if (!name){
     errors.push('Please provide a name')
+  }
+
+  if(!isEmail(email)){
+    errors.push('Please provide a valid email')
   }
 
   if(errors.length > 0){

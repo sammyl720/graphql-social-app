@@ -2,6 +2,7 @@ const { User } = require('../../models');
 require('dotenv').config()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
+const { isEmail } = require('../../util/rgx');
 
 
 module.exports = async (parent, { data: { email, password }}, ctx, info) => {
@@ -13,7 +14,9 @@ module.exports = async (parent, { data: { email, password }}, ctx, info) => {
   if(!password){
     errors.push('Please provide a password')
   }
-
+  if(!isEmail(email)){
+    errors.push('Please provide a valid email')
+  }
   if(errors.length > 0){
     return {
       message: errors[0],
