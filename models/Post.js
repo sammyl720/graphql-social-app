@@ -18,6 +18,10 @@ const PostSchema = new Schema({
     type: Boolean,
     default: true
   },
+  likeCount: {
+    type: Number,
+    default: 1
+  },
   likes: [{
     type: ObjectId,
     ref: 'User'
@@ -31,6 +35,7 @@ const PostSchema = new Schema({
 
 PostSchema.pre('save', function(next) {
   this.id = this._id
+  this.likeCount = this.likes.length
   next()
 })
 
@@ -48,6 +53,7 @@ PostSchema.post('find', async function(docs) {
     }
   }
 })
+
 
 const PostModel = model('Post', PostSchema)
 

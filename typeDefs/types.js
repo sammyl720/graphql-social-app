@@ -31,6 +31,7 @@ type Error {
 type Post {
   id:ID!
   text: [String!]
+  likeCount: Int
   created_on: Date
   user: User!
   images: [String]
@@ -72,5 +73,10 @@ type Comment {
    users: [User]!
    posts: [Post]!
    comments: [Comment]!
+ }
+
+ type Feed {
+   friends: [Post]!
+   recommended: [Post]!
  }
 `

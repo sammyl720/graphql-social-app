@@ -11,5 +11,6 @@ type Query {
   ${find}
   """
   find(data: FindInput): FindResult! @ensureAuth
+  feed: Feed! @ensureAuth
 }
 `
