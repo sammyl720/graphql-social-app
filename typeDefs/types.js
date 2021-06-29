@@ -34,6 +34,7 @@ type Post {
   likeCount: Int
   created_on: Date
   user: User!
+  score:Int
   images: [String]
   public: Boolean
   likes: [User!]
@@ -78,5 +79,6 @@ type Comment {
  type Feed {
    friends: [Post]!
    recommended: [Post]!
+   popular: [Post]!
  }
 `

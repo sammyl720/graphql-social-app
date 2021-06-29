@@ -9,6 +9,9 @@ module.exports = {
     return parent.text
 
   },
+  score: (parent) => {
+    return parent.score || 0
+  },
   likes: async (parent) => {
     try {
       const users = await User.find({ _id: parent.likes })
