@@ -10,12 +10,7 @@ module.exports = async (parent, { id }, ctx, info) => {
         errors: ['Could not find user with id provided ' + id]
       }
     }
-    const user = { ...foundUser._doc, id: foundUser._id.toString()}
-    delete user.password
-    delete user._id
-    delete user.__v
-    // console.log(user)
-    return user
+    return foundUser
   } catch (error) {
     return {
       message: 'Something went wrong',
