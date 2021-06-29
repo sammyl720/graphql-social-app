@@ -22,6 +22,15 @@ module.exports = {
       }]
     }
   },
+  likedPosts: async (parent, args, ctx) => {
+    try {
+      const likedPosts = await Post.find({ likes: { $in: parent.id || parent._id }})
+      return likedPosts;
+    } catch (error) {
+      console.log(error)
+      return []
+    }
+  },
   requests: async (parent, args, ctx) => {
     try {
       const requests = await User.find({ _id: parent.requests })

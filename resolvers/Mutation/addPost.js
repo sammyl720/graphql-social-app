@@ -2,13 +2,14 @@ const { Post } = require('../../models')
 const getHashTagFromText = require('../../util/getHashTagFromText')
 
 
-module.exports = async (parent, { data: { text, images = [], public = true }}, { payload, user }, info) => {
+module.exports = async (parent, { data: { text = [], images = [], public = true }}, { payload, user }, info) => {
     try {
-      if(!text){
+      if(text.length < 1){
         return { message: 'Please provide post text', errors: ['Please provide post text'] }
   
       }
       //? TODO add images to cloud and get a ref list
+      ////
       const hash_tags = getHashTagFromText(text)
       const newPost = new Post({
         text,

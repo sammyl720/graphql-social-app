@@ -1,9 +1,11 @@
-module.exports = text => {
-  const rgx = /\W?#(?<tag>\w+)\W?/gi
-  const matches = text.matchAll(rgx);
+module.exports = list => {
   let tags = []
-  for (const match of matches){
-      tags.push(match.groups.tag)
-  }
+  list.forEach(t => {
+    const rgx = /\W?#(?<tag>\w+)\W?/gi
+    const matches = text.matchAll(rgx);
+    for (const match of matches){
+        tags.push(match.groups.tag)
+    }
+  });
   return tags;
 }

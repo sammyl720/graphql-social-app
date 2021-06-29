@@ -8,6 +8,7 @@ enum Gender {
 type User {
   verified: Boolean
   id:ID!
+  likedPosts: [Post]
   private: Boolean
   email: String!
   name: String
@@ -29,7 +30,7 @@ type Error {
 
 type Post {
   id:ID!
-  text: String!
+  text: [String!]
   created_on: Date
   user: User!
   images: [String]
@@ -41,7 +42,7 @@ type Post {
 
 type Comment {
   id: ID!
-  text: String!
+  text: [String!]
   images: [String]
   user: User!
   created_on: Date

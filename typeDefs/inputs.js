@@ -1,18 +1,18 @@
 module.exports = `
   input AddPostInput {
-    text: String!
+    text: [String!]
     images: [String]
     public: Boolean
   }
   input AddPostCommentInput {
     postId: ID!
-    text: String!
+    text: [String!]
     images: [String]
     public: Boolean
   }
   input AddCommentInput {
     commentId: ID!
-    text: String!
+    text: [String!]
     images: [String]
     public: Boolean
   }

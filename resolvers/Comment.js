@@ -1,6 +1,13 @@
 const { Post, User, Comment } = require("../models")
 
 module.exports = {
+  text: (parent, args,ctx) => {
+    if(typeof parent.text == 'string'){
+      return [parent.text]
+    }
+    return parent.text
+
+  },
   id: (parent, args,ctx) => {
     return parent._id
   },

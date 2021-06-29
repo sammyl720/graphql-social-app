@@ -2,7 +2,7 @@ const { Schema, model, ObjectId } = require('mongoose');
 
 const CommentSchema = new Schema({
   text: {
-    type: String,
+    type: [String],
     required: true
   },
   public: {
