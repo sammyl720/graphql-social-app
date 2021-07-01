@@ -1,5 +1,6 @@
-const { ApolloServer } = require('apollo-server')
-
+const { ApolloServer } = require('apollo-server-express')
+const express = require('express')
+const cookie = require('cookie')
 const mongoose = require('mongoose')
 const getJWTPayload = require('./util/getJWTPayload')
 const resolvers = require('./resolvers')
@@ -15,36 +16,44 @@ if(process.argv[process.argv.length - 1].toUpperCase() == 'TEST'){
 
 const port = process.env.PORT || 4000
 
-const server = new ApolloServer({ typeDefs, resolvers, context: (ctx) => {
-  const payload = getJWTPayload(ctx)
-  return { payload,from: 'CONTEXT', models}
-},
-schemaDirectives: {
-  ensureAuth: EnsureAuth
-} })
+async function startApolloServer(){
+  const app = express()
+  const server = new ApolloServer({ typeDefs, resolvers, context: (ctx) => {
+    
+    const payload = getJWTPayload(ctx)
+    return { payload,from: 'CONTEXT', models}
+  },
+  schemaDirectives: {
+    ensureAuth: EnsureAuth
+  } })
 
-const db = process.env.MONGO_DB
+  const db = process.env.MONGO_DB
 
 
-const initConnection = async () => {
-  try {
-    const uri = `${process.env.MONGO_URI}/${db}?retryWrites=true&w=majority`;
-    const connection = await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-      useCreateIndex: true
-    });
-    console.log('Connected')
-    return connection
-  } catch (error) {
-    console.log(error)
+  const initConnection = async () => {
+    try {
+      const uri = `${process.env.MONGO_URI}/${db}?retryWrites=true&w=majority`;
+      const connection = await mongoose.connect(uri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true
+      });
+      console.log('Connected')
+      return connection
+    } catch (error) {
+      console.log(error)
+    }
   }
+
+  initConnection()
+
+  await server.start()
+  server.applyMiddleware({ app })
+
+  await new Promise(resolve => app.listen({ port }, resolve));
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+  return { server, app };
 }
 
-initConnection()
-server.listen({ port }).then(async ({ url }) => {
-  console.log(`Server ready at ${url}`)
-})
-
-module.exports = server
+module.exports = startApolloServer()

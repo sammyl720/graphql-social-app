@@ -2,10 +2,9 @@ const { Post } = require("../../models")
 const {Types} = require('mongoose')
 module.exports = async (parent, { limit = 10 }, { user }) => {
   try {
-    const friends = await Post.find({ user: user.following[0] }).sort('created_on desc').limit(limit)
-    const recommended = await Post.find().sort('likeCount desc').limit(limit)
-    const popular = await Post.find().sort('score desc').limit(limit)
-    console.log(recommended[0]._doc)
+    const friends = await Post.find({ user: user.following }).sort('-created_on').limit(limit)
+    const recommended = await Post.find({ public: true }).sort('-likeCount').limit(limit)
+    const popular = await Post.find({ public: true }).sort('-score').limit(limit)
     return {
       friends,
       recommended,
@@ -13,7 +12,7 @@ module.exports = async (parent, { limit = 10 }, { user }) => {
     }
 
   } catch (error) {
-    console.log(error)
+    console.log(error,'dsfsfsdf')
     return {
       friends: [],
       recommended: [],

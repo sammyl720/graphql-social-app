@@ -10,6 +10,7 @@ module.exports = async (parent, { data: { text, limit = 10}}, { user }) => {
     let posts = await Post.find({ text: rgxText, public: true }).sort('-created_on').limit(limit)
     let comments = await Comment.find({ text: rgxText, public: true }).sort('-created_on').limit(limit)
     let users = []
+    if(typeof text == 'string') text = text.split(' ')
     const tags = getHashTagFromText(text)
 
     if(tags.length > 0){

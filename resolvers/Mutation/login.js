@@ -1,9 +1,8 @@
 const { User } = require('../../models');
-
+const cookie = require('cookie')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 const { isEmail } = require('../../util/rgx');
-
 
 module.exports = async (parent, { data: { email, password }}, ctx, info) => {
   const errors = []
@@ -46,7 +45,14 @@ module.exports = async (parent, { data: { email, password }}, ctx, info) => {
     const last_login = new Date();
     user.last_login = last_login;
     await user.save()
-
+    // const setToken = cookie.serialize("token", token, {
+    //   httpOnly: true,
+    //   maxAge: 60 * 60 * 24, // one day
+    // })
+    // app.use((req, res, next) => {
+    //   res.setHeader('Set-Cookie', setToken)
+    //   next()
+    // })
     return {token}
   } catch (error) {
     console.log(error)

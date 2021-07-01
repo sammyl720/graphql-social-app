@@ -2,6 +2,7 @@ const feed = require("./feed")
 const find = require("./find")
 const me = require("./me")
 const posts = require("./posts")
+const publicUser = require("./publicUser")
 const user = require("./user")
 
 module.exports = {
@@ -12,5 +13,6 @@ module.exports = {
   user,
   posts,
   find,
-  feed
+  feed,
+  publicUser
 }

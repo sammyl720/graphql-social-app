@@ -40,35 +40,14 @@ const PostSchema = new Schema({
 PostSchema.pre('save', function(next) {
   this.id = this._id
   this.likeCount = this.likes.length
+  const now = Date.now()
+  const dif = parseInt(((now - this.created_on.getTime()) / 1000) / 60 / 60);
+  console.log(dif)
+  this.score = Math.floor((10 * this.likeCount) / (dif || 1))
+
+  
   next()
 })
-
-PostSchema.pre('find', function(next){
-  next()  
-})
-
-PostSchema.post('find', async function(docs) {
-  for(let doc of docs) {
-    const created_on = new Date(doc.created_on)
-    const now = Date.now()
-    const dif = parseInt(((now - created_on.getTime()) / 1000) / 60 / 60);
-    // console.log(`${doc._id} created ${dif} hours ago`)
-    docs.hours_ago = dif;
-    doc.id = doc._id.toString()
-    // console.log(doc.id, dif)
-    doc.score = Math.floor((doc.likeCount || 1) / (dif))
-    // console.log(`${doc.likeCount} / ${dif} = 'Score`)
-    await doc.save()
-    console.log(doc.score)
-    // console.log(doc)
-    if(doc.public){
-      await doc.populate('likes').execPopulate()
-    } else {
-      await doc.populate('likes').execPopulate()
-    }
-  }
-})
-
 
 const PostModel = model('Post', PostSchema)
 
