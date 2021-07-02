@@ -20,7 +20,7 @@ module.exports = {
   gender: (parent) => parent.gender || 'Unspecified',
   followers: async (parent, args, ctx) => {
     try {
-      const followers = await User.find({ _id: parent.followers })
+      const followers = await User.find({ _id: parent.followers }).sort('-last_login')
       return followers || []
     } catch (error) {
       console.log(error)
@@ -32,7 +32,7 @@ module.exports = {
   },
   likedPosts: async (parent, args, ctx) => {
     try {
-      const likedPosts = await Post.find({ likes: { $in: parent.id || parent._id }})
+      const likedPosts = await Post.find({ likes: { $in: parent.id || parent._id }}).sort('-created_on')
       return likedPosts;
     } catch (error) {
       console.log(error)
@@ -41,7 +41,7 @@ module.exports = {
   },
   requests: async (parent, args, ctx) => {
     try {
-      const requests = await User.find({ _id: parent.requests })
+      const requests = await User.find({ _id: parent.requests }).sort('-last_login')
       return requests || []
     } catch (error) {
       console.log(error)
@@ -53,7 +53,7 @@ module.exports = {
   },
   following: async (parent, args, ctx) => {
     try {
-      const following = await User.find({ _id: parent.following })
+      const following = await User.find({ _id: parent.following }).sort('-last_login')
       return following || []
     } catch (error) {
       console.log(error)
@@ -66,7 +66,7 @@ module.exports = {
   posts: async (parent, args, context) => {
     // console.log(parent, 'parent')
     try {
-      const posts = await Post.find({ _id: parent.posts })
+      const posts = await Post.find({ _id: parent.posts }).sort('-created_on')
       // console.log(posts,'posts')
       if(!posts) {
         return [{

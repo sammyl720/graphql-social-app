@@ -23,7 +23,7 @@ module.exports = {
   },
   likes: async (parent) => {
     try {
-      const users = await User.find({ _id: parent.likes })
+      const users = await User.find({ _id: parent.likes }).sort('-last_login')
       return users
     } catch (error) {
       console.log(error)
@@ -44,7 +44,7 @@ module.exports = {
   },
   comments: async (parent, args,ctx) => {
     try {
-      const comments = await Comment.find({ _id: parent.comments })
+      const comments = await Comment.find({ _id: parent.comments }).sort('-created_on')
       return comments
     } catch (error) {
       console.log(error)
