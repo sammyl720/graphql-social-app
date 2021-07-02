@@ -22,12 +22,14 @@ async function startApolloServer(){
   app.use(express.urlencoded({ extended: true }))
   app.use(express.json())
   const server = new ApolloServer({ typeDefs, resolvers, context: (ctx) => {
-    const payload = getJWTPayload(ctx)
-    return { payload,from: 'CONTEXT', models}
-  },
-  schemaDirectives: {
-    ensureAuth: EnsureAuth
-  } })
+      const payload = getJWTPayload(ctx)
+      return { payload, models}
+    },
+    schemaDirectives: {
+      ensureAuth: EnsureAuth
+    },
+    
+  })
 
   const db = process.env.MONGO_DB
 
@@ -51,7 +53,7 @@ async function startApolloServer(){
   initConnection()
 
   await server.start()
-  server.applyMiddleware({ app })
+  server.applyMiddleware({ app, bodyParserConfig: true, path: '/api' })
 
   app.use('/',express.static(path.resolve(__dirname, 'public')))
   await new Promise(resolve => app.listen({ port }, resolve));
