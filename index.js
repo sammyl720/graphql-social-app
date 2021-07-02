@@ -1,6 +1,6 @@
 const { ApolloServer } = require('apollo-server-express')
 const express = require('express')
-const cookie = require('cookie')
+const path = require('path')
 const mongoose = require('mongoose')
 const getJWTPayload = require('./util/getJWTPayload')
 const resolvers = require('./resolvers')
@@ -19,8 +19,9 @@ const port = process.env.PORT || 4000
 
 async function startApolloServer(){
   const app = express()
+  app.use(express.urlencoded({ extended: true }))
+  app.use(express.json())
   const server = new ApolloServer({ typeDefs, resolvers, context: (ctx) => {
-    
     const payload = getJWTPayload(ctx)
     return { payload,from: 'CONTEXT', models}
   },
@@ -52,6 +53,7 @@ async function startApolloServer(){
   await server.start()
   server.applyMiddleware({ app })
 
+  app.use('/',express.static(path.resolve(__dirname, 'public')))
   await new Promise(resolve => app.listen({ port }, resolve));
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
   return { server, app };
