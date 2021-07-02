@@ -1,19 +1,23 @@
 module.exports = `
+  input ImageInput {
+    base64:String!
+    filename:String!
+  }
   input AddPostInput {
     text: [String!]
-    images: [String]
+    images: [ImageInput]
     public: Boolean
   }
   input AddPostCommentInput {
     postId: ID!
     text: [String!]
-    images: [String]
+    images: [ImageInput]
     public: Boolean
   }
   input AddCommentInput {
     commentId: ID!
     text: [String!]
-    images: [String]
+    images: [ImageInput]
     public: Boolean
   }
 
@@ -31,7 +35,7 @@ module.exports = `
   input updateProfileInput{
     name: String
     gender: Gender
-    profile_img: String
+    profile_img: ImageInput
     bio: String
     private: Boolean
   }

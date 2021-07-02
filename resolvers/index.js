@@ -9,6 +9,7 @@ const Post = require("./Post");
 const Date = require("./Date");
 const Comment = require("./Comment");
 const CommentOrError = require("./resolveTypes/CommentOrError");
+const Image = require("./Image");
 module.exports = {
   Query,
   PostOrError,
@@ -20,5 +21,6 @@ module.exports = {
   Comment,
   User,
   Post,
-  Date
+  Date,
+  Image
 }

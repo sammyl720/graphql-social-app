@@ -1,11 +1,19 @@
 const { Types } = require("mongoose")
-const { User } = require("../models")
-const { Post } = require("../models")
+const { User, Post, Image } = require("../models")
 
 module.exports = {
   private: (parent) => {
     console.log('is user private?', parent.private || false)
     return parent.private || false
+  },
+  profile_img: async(parent) => {
+    try {
+      const img = await Image.findById(parent.profile_img);
+      return img || null;
+    } catch (error) {
+      console.log(error)
+      return null
+    }
   },
   id: (parent) => parent._id,
   bio: (parent) => parent.bio || null,

@@ -1,4 +1,6 @@
-const { Post, Comment, User } = require('../../models')
+const { Post, Comment, User, Image } = require('../../models')
+const uploader = require('../../util/createImg'); 
+
 const getHashTagFromText = require('../../util/getHashTagFromText')
 
 
@@ -13,6 +15,11 @@ module.exports = async (parent, { data: {postId, text = [], images = [], public 
       } 
       if(!postId){
         errors.push('Please provide postId field')
+      }
+      
+      if (images.length > 2){
+        errors.push('You can only upload upto two images per comment')
+        
       }
 
       if(errors.length > 0){
@@ -43,15 +50,27 @@ module.exports = async (parent, { data: {postId, text = [], images = [], public 
       }
       //? TODO add images to cloud and get a ref list
       const hash_tags = getHashTagFromText(text)
-      const newComment = new Comment({
+      const newComment = await Comment.create({
         text,
         user: user._id,
-        images,
         public,
         hash_tags,
         post: post._id
       })
       
+      let uploadedImages = [];
+      if(images.length > 0){
+        for(let i = 0; i < images.length;i++){
+          image = images[i];
+          if(!image.filename || !image.base64){
+            return { message: 'Please provide base64 and filename fields', errors: ['Please provide base64 and filename fields'] }
+          }
+          const img = await uploader(image.base64, `${postId}/${newComment._id}/${i}/${image.filename}`)
+          const ImageDoc = await Image.create(img)
+          uploadedImages.push(ImageDoc.id);
+        }
+      }
+      newComment.images = uploadedImages;
       let comment = await newComment.save()
       post.comments.push(comment._id)
       await post.save()

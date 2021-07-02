@@ -8,6 +8,7 @@ const typeDefs = require('./typeDefs')
 const models = require('./models')
 const EnsureAuth = require('./directives/ensureAuth')
 
+
 if(process.argv[process.argv.length - 1].toUpperCase() == 'TEST'){
   require('dotenv').config({ path: "./test.env"})
 } else {

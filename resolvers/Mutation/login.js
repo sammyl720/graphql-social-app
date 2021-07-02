@@ -41,18 +41,10 @@ module.exports = async (parent, { data: { email, password }}, ctx, info) => {
       }
     }
 
-    const token = jwt.sign({ id: user._id, email}, process.env.JWT_SECRET, { expiresIn: '2 days'})
+    const token = jwt.sign({ id: user._id, email}, process.env.JWT_SECRET, { expiresIn: '7 days'})
     const last_login = new Date();
     user.last_login = last_login;
     await user.save()
-    // const setToken = cookie.serialize("token", token, {
-    //   httpOnly: true,
-    //   maxAge: 60 * 60 * 24, // one day
-    // })
-    // app.use((req, res, next) => {
-    //   res.setHeader('Set-Cookie', setToken)
-    //   next()
-    // })
     return {token}
   } catch (error) {
     console.log(error)

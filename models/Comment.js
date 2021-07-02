@@ -9,7 +9,10 @@ const CommentSchema = new Schema({
     type: Boolean,
     default: true
   },
-  images: [String],
+  images: [{
+    type: ObjectId,
+    ref: 'Image'
+  }],
   user: {
     type: ObjectId,
     ref: 'User'

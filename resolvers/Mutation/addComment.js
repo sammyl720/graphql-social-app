@@ -1,5 +1,6 @@
-const { Post, Comment, User } = require('../../models')
+const { Post, Comment, User, Image } = require('../../models')
 const getHashTagFromText = require('../../util/getHashTagFromText')
+const uploader = require('../../util/createImg'); 
 
 
 module.exports = async (parent, { data: {commentId, text = [], images = [], public }}, { user }, info) => {
@@ -44,14 +45,26 @@ module.exports = async (parent, { data: {commentId, text = [], images = [], publ
       }
       //? TODO add images to cloud and get a ref list
       const hash_tags = getHashTagFromText(text)
-      const newComment = new Comment({
+      const newComment = await Comment.create({
         text,
         user: user._id,
-        images,
         hash_tags,
         post: comment.post
       })
-      
+      let uploadedImages = [];
+      if(images.length > 0){
+        for(let i = 0; i < images.length;i++){
+          image = images[i];
+          if(!image.filename || !image.base64){
+            return { message: 'Please provide base64 and filename fields', errors: ['Please provide base64 and filename fields'] }
+          }
+          console.log(`${comment._id}/${newComment._id}/${i}/${image.filename}`)
+          const img = await uploader(image.base64, `${comment._id}/${newComment._id}/${i}/${image.filename}`)
+          const ImageDoc = await Image.create(img)
+          uploadedImages.push(ImageDoc._id);
+        }
+      }
+      newComment.images = uploadedImages;
       let updatedComment = await newComment.save()
       comment.comments.push(updatedComment._id)
       await comment.save()

@@ -5,7 +5,10 @@ const PostSchema = new Schema({
     type: [String]
   },
   id: ObjectId,
-  images: [String],
+  images: [{
+    type: ObjectId,
+    ref: 'Image'
+  }],
   created_on: {
     type: Date,
     default: Date.now

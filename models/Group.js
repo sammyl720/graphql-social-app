@@ -24,7 +24,10 @@ const GroupSchema = new Schema({
   description: {
     type: String
   },
-  group_image: [String],
+  group_image: [{
+    type: ObjectId,
+    ref: 'Image'
+  }],
   public: [{
     type: Boolean,
     default: true

@@ -14,7 +14,7 @@ type User {
   name: String
   bio: String
   gender: Gender!
-  profile_img: String
+  profile_img: Image
   date_joined: Date
   last_login: Date
   requests: [User]
@@ -35,7 +35,7 @@ type Post {
   created_on: Date
   user: User!
   score:Int
-  images: [String]
+  images: [Image]
   public: Boolean
   likes: [User!]
   hash_tags: [String]
@@ -45,7 +45,7 @@ type Post {
 type Comment {
   id: ID!
   text: [String!]
-  images: [String]
+  images: [Image]
   user: User!
   created_on: Date
   post: Post!
@@ -80,5 +80,16 @@ type Comment {
    friends: [Post]!
    recommended: [Post]!
    popular: [Post]!
+ }
+
+ type Image {
+   id: ID!
+   asset_id: String!
+   public_id:String!
+   url: String!
+   secure_url:String!
+   format: String
+   resource_type:String
+   created_at:String
  }
 `

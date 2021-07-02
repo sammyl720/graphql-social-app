@@ -1,5 +1,5 @@
 const { Types } = require("mongoose")
-const { Post, Comment,User } = require("../models")
+const { Post, Comment,User, Image } = require("../models")
 
 module.exports = {
   text: (parent, args,ctx) => {
@@ -8,6 +8,15 @@ module.exports = {
     }
     return parent.text
 
+  },
+  images: async (parent) => {
+    try {
+      const imgs = await Image.find({ _id: parent.images })
+      return imgs || [];
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
   },
   score: (parent) => {
     return parent.score || 0

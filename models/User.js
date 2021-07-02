@@ -28,7 +28,8 @@ const UserSchema = new Schema({
     default: false
   },
   profile_img: {
-    type: String
+    type: ObjectId,
+    ref: 'Image'
   },
   date_joined: {
     type: Date,

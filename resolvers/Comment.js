@@ -1,4 +1,4 @@
-const { Post, User, Comment } = require("../models")
+const { Post, User, Comment, Image } = require("../models")
 
 module.exports = {
   text: (parent, args,ctx) => {
@@ -7,6 +7,15 @@ module.exports = {
     }
     return parent.text
 
+  },
+  images: async (parent) => {
+    try {
+      const imgs = await Image.find({ _id: parent.images })
+      return imgs || [];
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
   },
   id: (parent, args,ctx) => {
     return parent._id
