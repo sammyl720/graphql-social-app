@@ -67,7 +67,7 @@ module.exports = async (parent, { data: {postId, text = [], images = [], public 
           }
           const img = await uploader(image.base64, `${postId}/${newComment._id}/${i}/${image.filename}`)
           const ImageDoc = await Image.create(img)
-          uploadedImages.push(ImageDoc.id);
+          uploadedImages.push(ImageDoc._id);
         }
       }
       newComment.images = uploadedImages;
