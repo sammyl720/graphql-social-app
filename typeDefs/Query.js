@@ -13,6 +13,6 @@ type Query {
   find(data: FindInput): FindResult! @ensureAuth
   feed(limit: Int): Feed! @ensureAuth
   publicUser(id: ID!): UserOrError!
-  refresh: Refresh!
+  refresh: TokenOrError!
 }
 `

@@ -27,6 +27,7 @@ type Error {
   id: ID!
   message: String!
   errors: [String]
+  code: Int
 }
 
 type Post {
@@ -93,9 +94,5 @@ type Comment {
    format: String
    resource_type:String
    created_at:String
- }
-
- type Refresh {
-   mode: String!
  }
 `

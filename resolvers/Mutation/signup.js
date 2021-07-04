@@ -53,16 +53,18 @@ module.exports = async (parent, { data: { email, password, name }}, ctx, info) =
     })
 
     await newUser.save()
-    const token = jwt.sign({ id: newUser._id, email}, process.env.JWT_SECRET, { expiresIn: '2h'})
+    const token = jwt.sign({ id: newUser._id, email}, process.env.JWT_SECRET, { expiresIn: '30m'})
     sendVerifyEmail(newUser, token)
+    const expireTime = Date.now() + (30 * minute)
     const refresh_token = jwt.sign({ id: newUser._id }, process.env.REFRESH_SECRET, { expiresIn: '7 days'})
     const serializedCookie = cookie.serialize('refresh_token', refresh_token, {
       httpOnly: true,
       maxAge: week / 1000, // from ms to second
-      sameSite: process.env.NODE_ENV !== 'development'
+      sameSite: process.env.NODE_ENV == 'production',
+      secure: process.env.NODE_ENV == 'production',
+      ...(process.env.NODE_ENV == 'production' && { domain: process.env.WEBSITE })
     })
     ctx.res.setHeader('Set-Cookie', serializedCookie)
-    const expireTime = Date.now() + (15 * minute)
     return { token, expireTime }
   } catch (error) {
     return {
