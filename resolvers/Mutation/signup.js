@@ -57,7 +57,7 @@ module.exports = async (parent, { data: { email, password, name }}, ctx, info) =
     sendVerifyEmail(newUser, token)
     const expireTime = Date.now() + (30 * minute)
     const refresh_token = jwt.sign({ id: newUser._id }, process.env.REFRESH_SECRET, { expiresIn: '7 days'})
-    const serializedCookie = cookie.serialize('refresh_token', refresh_token, {
+    const serializedCookie = cookie.serialize('refreshToken', refresh_token, {
       httpOnly: true,
       maxAge: week / 1000, // from ms to second
       sameSite: process.env.NODE_ENV == 'production',

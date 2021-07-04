@@ -56,7 +56,7 @@ module.exports = async (parent, { data: { email, password }}, ctx, info) => {
       secure: process.env.NODE_ENV == 'production',
       ...(process.env.NODE_ENV == 'production' && { domain: process.env.WEBSITE })
     })
-    ctx.res.cookie('Set-Cookie', serializedCookie)
+    ctx.res.setHeader('Set-Cookie', serializedCookie)
     return { token, expireTime }
   } catch (error) {
     console.log(error)
