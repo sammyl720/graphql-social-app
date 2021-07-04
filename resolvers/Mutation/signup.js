@@ -51,7 +51,7 @@ module.exports = async (parent, { data: { email, password, name }}, ctx, info) =
     })
 
     await newUser.save()
-    const token = jwt.sign({ id: newUser._id, email}, process.env.JWT_SECRET, { expiresIn: '2 days'})
+    const token = jwt.sign({ id: newUser._id, email}, process.env.JWT_SECRET, { expiresIn: '2h'})
     
     sendVerifyEmail(newUser, token)
     return { token }

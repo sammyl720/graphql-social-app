@@ -20,10 +20,23 @@ const port = process.env.PORT || 4000
 async function startApolloServer(){
   const app = express()
   app.use(express.urlencoded({ extended: true }))
+  app.use(async (req, res, next) => {
+    try {
+      const payload = getJWTPayload({ req })
+      res.payload = payload;
+    } catch (error) {
+      console.log('blocked')
+      return res.status(401).json({ error: error.message })
+    }
+    next()
+  })
   app.use(express.json())
   const server = new ApolloServer({ typeDefs, resolvers, context: (ctx) => {
-      const payload = getJWTPayload(ctx)
-      return { payload, models}
+    try {
+        return { payload: ctx.res.payload, models}
+      } catch (error) {
+        console.log(error)
+      }
     },
     schemaDirectives: {
       ensureAuth: EnsureAuth

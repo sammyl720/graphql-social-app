@@ -8,7 +8,7 @@ enum Gender {
 type User {
   verified: Boolean
   id:ID!
-  likedPosts: [Post]
+  likedPosts(limit: Int, skip: Int): [Post]
   private: Boolean
   email: String!
   name: String
@@ -17,13 +17,14 @@ type User {
   profile_img: Image
   date_joined: Date
   last_login: Date
-  requests: [User]
-  followers: [User]
-  following: [User]
-  posts: [Post]
+  requests(limit: Int, skip: Int): [User]
+  followers(limit: Int, skip: Int): [User]
+  following(limit: Int, skip: Int): [User]
+  posts(limit: Int, skip: Int): [Post]
 }
 
 type Error {
+  id: ID!
   message: String!
   errors: [String]
 }
@@ -37,9 +38,9 @@ type Post {
   score:Int
   images: [Image]
   public: Boolean
-  likes: [User!]
+  likes(skip: Int, limit: Int): [User!]
   hash_tags: [String]
-  comments: [Comment!]
+  comments(skip: Int, limit: Int): [Comment!]
 }
 
 type Comment {
@@ -50,8 +51,8 @@ type Comment {
   created_on: Date
   post: Post!
   public: Boolean!
-  likes: [User!]
-  comments: [Comment]
+  likes(skip:Int, limit: Int): [User!]
+  comments(skip: Int, limit: Int): [Comment]
   hash_tags: [String]
 }
  type Token {

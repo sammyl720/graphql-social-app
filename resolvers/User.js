@@ -18,9 +18,9 @@ module.exports = {
   id: (parent) => parent._id,
   bio: (parent) => parent.bio || null,
   gender: (parent) => parent.gender || 'Unspecified',
-  followers: async (parent, args, ctx) => {
+  followers: async (parent, { limit = 100, skip = 0 }, ctx) => {
     try {
-      const followers = await User.find({ _id: parent.followers }).sort('-last_login')
+      const followers = await User.find({ _id: parent.followers }).sort('-last_login').skip(skip).limit(limit)
       return followers || []
     } catch (error) {
       console.log(error)
@@ -30,18 +30,18 @@ module.exports = {
       }]
     }
   },
-  likedPosts: async (parent, args, ctx) => {
+  likedPosts: async (parent, { limit = 100, skip = 0 }, ctx) => {
     try {
-      const likedPosts = await Post.find({ likes: { $in: parent.id || parent._id }}).sort('-created_on')
+      const likedPosts = await Post.find({ likes: { $in: parent.id || parent._id }}).sort('-created_on').skip(skip).limit(limit)
       return likedPosts;
     } catch (error) {
       console.log(error)
       return []
     }
   },
-  requests: async (parent, args, ctx) => {
+  requests: async (parent, { limit = 100, skip = 0 }, ctx) => {
     try {
-      const requests = await User.find({ _id: parent.requests }).sort('-last_login')
+      const requests = await User.find({ _id: parent.requests }).sort('-last_login').skip(skip).limit(limit)
       return requests || []
     } catch (error) {
       console.log(error)
@@ -51,9 +51,9 @@ module.exports = {
       }]
     }
   },
-  following: async (parent, args, ctx) => {
+  following: async (parent, { limit = 100, skip = 0 }, ctx) => {
     try {
-      const following = await User.find({ _id: parent.following }).sort('-last_login')
+      const following = await User.find({ _id: parent.following }).sort('-last_login').skip(skip).limit(limit)
       return following || []
     } catch (error) {
       console.log(error)
@@ -63,10 +63,10 @@ module.exports = {
       }]
     }
   },
-  posts: async (parent, args, context) => {
+  posts: async (parent, { limit = 100, skip = 0 }, context) => {
     // console.log(parent, 'parent')
     try {
-      const posts = await Post.find({ _id: parent.posts }).sort('-created_on')
+      const posts = await Post.find({ _id: parent.posts }).sort('-created_on').skip(skip).limit(limit)
       // console.log(posts,'posts')
       if(!posts) {
         return [{

@@ -41,7 +41,7 @@ module.exports = async (parent, { data: { email, password }}, ctx, info) => {
       }
     }
 
-    const token = jwt.sign({ id: user._id, email}, process.env.JWT_SECRET, { expiresIn: '7 days'})
+    const token = jwt.sign({ id: user._id, email}, process.env.JWT_SECRET, { expiresIn: '2m'})
     const last_login = new Date();
     user.last_login = last_login;
     await user.save()
