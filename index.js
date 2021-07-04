@@ -31,6 +31,10 @@ async function startApolloServer(){
     next()
   })
   app.use(express.json())
+  app.use('/logout', (req, res) => {
+    res.clearCookie('refreshToken')
+    return res.status(200).json({ message: 'Cleared cookie' })
+  })
   const server = new ApolloServer({ typeDefs, resolvers, context: (ctx) => {
     try {
         return { ...ctx, payload: ctx.res.payload, models}
