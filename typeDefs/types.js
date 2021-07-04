@@ -57,6 +57,7 @@ type Comment {
 }
  type Token {
    token: String!
+   expireTime: String!
  }
 
  type Success {
@@ -92,5 +93,9 @@ type Comment {
    format: String
    resource_type:String
    created_at:String
+ }
+
+ type Refresh {
+   mode: String!
  }
 `

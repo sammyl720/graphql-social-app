@@ -33,7 +33,7 @@ async function startApolloServer(){
   app.use(express.json())
   const server = new ApolloServer({ typeDefs, resolvers, context: (ctx) => {
     try {
-        return { payload: ctx.res.payload, models}
+        return { ...ctx, payload: ctx.res.payload, models}
       } catch (error) {
         console.log(error)
       }
@@ -67,10 +67,10 @@ async function startApolloServer(){
 
   await server.start()
   server.applyMiddleware({ app, bodyParserConfig: true, path: '/api' })
-
   app.use('/',express.static(path.resolve(__dirname, 'public')))
   await new Promise(resolve => app.listen({ port }, resolve));
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+  console.log(process.env.NODE_ENV, 'node env')
   return { server, app };
 }
 

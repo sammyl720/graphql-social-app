@@ -12,8 +12,7 @@ module.exports = async (parent, { data: { text = [], images = [], public = true 
         return { message: 'Please provide post text', errors: ['Please provide post text'] }
   
       }
-      //? TODO add images to cloud and get a ref list
-      ////
+
       const hash_tags = getHashTagFromText(text)
       
       const newPost = await Post.create({

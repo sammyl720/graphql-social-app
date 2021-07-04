@@ -1,9 +1,6 @@
-const { User } = require("../../models")
-
-module.exports = async(parent, args, { user }) => {
+module.exports = async(parent, args, { user, req }) => {
   try {
     delete user._doc.password
-    delete user._doc.__v
     return user._doc;
   } catch (error) {
     console.log(error)

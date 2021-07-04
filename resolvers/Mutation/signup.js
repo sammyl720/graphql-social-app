@@ -1,12 +1,14 @@
 const bcrypt = require('bcryptjs')
 const User = require('../../models/User')
+const { minute, week } = require('../../util/time');
+const cookie = require('cookie')
 const jwt = require('jsonwebtoken')
 const sendEmail = require('../../mail')
 const { isEmail } = require('../../util/rgx')
 const url = process.env.BASE_URL || 'http://127.0.0.1:3000'
 
 module.exports = async (parent, { data: { email, password, name }}, ctx, info) => {
-  // backend login logi
+  // backend login logic
   // console.log(headers, from)
   const errors = []
   if(!email){
@@ -52,9 +54,16 @@ module.exports = async (parent, { data: { email, password, name }}, ctx, info) =
 
     await newUser.save()
     const token = jwt.sign({ id: newUser._id, email}, process.env.JWT_SECRET, { expiresIn: '2h'})
-    
     sendVerifyEmail(newUser, token)
-    return { token }
+    const refresh_token = jwt.sign({ id: newUser._id }, process.env.REFRESH_SECRET, { expiresIn: '7 days'})
+    const serializedCookie = cookie.serialize('refresh_token', refresh_token, {
+      httpOnly: true,
+      maxAge: week / 1000, // from ms to second
+      sameSite: process.env.NODE_ENV !== 'development'
+    })
+    ctx.res.setHeader('Set-Cookie', serializedCookie)
+    const expireTime = Date.now() + (15 * minute)
+    return { token, expireTime }
   } catch (error) {
     return {
       message: 'Something went wrong',
