@@ -10,15 +10,15 @@ const models = require('./models')
 const EnsureAuth = require('./directives/ensureAuth')
 
 
-if(process.env.NODE_ENV != 'production'){
+const devEnv = process.env.NODE_ENV.trim() == 'development'
+if(devEnv){
   require('dotenv').config()
 }
 
 const port = process.env.PORT || 4000
-
 async function startApolloServer(){
   const app = express()
-  const whitelist = ['http://kesher.club', 'https://www.kesher.club', 'https://kesher.vercel.app'];
+  const whitelist = ['http://kesher.club', 'https://www.kesher.club', 'https://kesher.vercel.app', process.env.BASE_URL];
   const corsOptions = {
     origin: (origin, callback) => {
       if(whitelist.indexOf(origin) !== -1 || !origin){
@@ -28,7 +28,11 @@ async function startApolloServer(){
       }
     }
   }
-  app.use(cors(corsOptions));
+  if(!devEnv){
+    app.use(cors((corsOptions)));
+  } else {
+    app.use(cors())
+  }
   app.use(express.urlencoded({ extended: true }))
   app.use(async (req, res, next) => {
     try {
