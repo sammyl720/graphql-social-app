@@ -5,7 +5,7 @@ const { minute, week } = require('../../util/time');
 
 module.exports = async (parents, args, ctx) => {
   try {
-    console.log(ctx.req.cookies, 'cookies', ctx.req.headers.cookie)
+    // console.log(ctx.req.cookies, 'cookies', ctx.req.headers.cookie)
     const { refreshToken } = cookie.parse(ctx.req.headers.cookie || '')
     if(refreshToken) {
       const payload = jwt.verify(refreshToken, process.env.REFRESH_SECRET)

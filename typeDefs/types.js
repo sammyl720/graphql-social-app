@@ -58,7 +58,7 @@ type Comment {
 }
  type Token {
    token: String!
-   expireTime: String!
+   expireTime: Float!
  }
 
  type Success {

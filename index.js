@@ -70,7 +70,7 @@ async function startApolloServer(){
   initConnection()
 
   await server.start()
-  server.applyMiddleware({ app, bodyParserConfig: true, path: '/api' })
+  server.applyMiddleware({ app, bodyParserConfig: true, path: '/' })
   app.use('/',express.static(path.resolve(__dirname, 'public')))
   await new Promise(resolve => app.listen({ port }, resolve));
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
