@@ -2,6 +2,7 @@ const { ApolloServer } = require('apollo-server-express')
 const express = require('express')
 const path = require('path')
 const mongoose = require('mongoose')
+const cors = require('cors')
 const getJWTPayload = require('./util/getJWTPayload')
 const resolvers = require('./resolvers')
 const typeDefs = require('./typeDefs')
@@ -9,9 +10,7 @@ const models = require('./models')
 const EnsureAuth = require('./directives/ensureAuth')
 
 
-if(process.argv[process.argv.length - 1].toUpperCase() == 'TEST'){
-  require('dotenv').config({ path: "./test.env"})
-} else {
+if(process.env.NODE_ENV != 'production'){
   require('dotenv').config()
 }
 
@@ -19,6 +18,17 @@ const port = process.env.PORT || 4000
 
 async function startApolloServer(){
   const app = express()
+  const whitelist = ['http://kesher.club', 'https://www.kesher.club', 'https://kesher.vercel.app'];
+  const corsOptions = {
+    origin: (origin, callback) => {
+      if(whitelist.indexOf(origin) !== -1 || !origin){
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
+    }
+  }
+  app.use(cors(corsOptions));
   app.use(express.urlencoded({ extended: true }))
   app.use(async (req, res, next) => {
     try {

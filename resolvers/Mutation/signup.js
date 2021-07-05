@@ -60,9 +60,7 @@ module.exports = async (parent, { data: { email, password, name }}, ctx, info) =
     const serializedCookie = cookie.serialize('refreshToken', refresh_token, {
       httpOnly: true,
       maxAge: week / 1000, // from ms to second
-      sameSite: process.env.NODE_ENV == 'production',
-      secure: process.env.NODE_ENV == 'production',
-      ...(process.env.NODE_ENV == 'production' && { domain: process.env.WEBSITE })
+      sameSite: false
     })
     ctx.res.setHeader('Set-Cookie', serializedCookie)
     return { token, expireTime }
