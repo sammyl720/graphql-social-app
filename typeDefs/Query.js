@@ -11,7 +11,7 @@ type Query {
   ${find}
   """
   find(data: FindInput): FindResult! @ensureAuth
-  feed(limit: Int): Feed! @ensureAuth
+  feed(limit: Int, skip: Int): Feed! @ensureAuth
   publicUser(id: ID!): UserOrError!
   refresh: TokenOrError!
 }
